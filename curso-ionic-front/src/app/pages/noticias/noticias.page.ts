@@ -3,7 +3,7 @@ import { NoticiasService } from 'src/app/services/noticias.service';
 import { NoticiasDTO } from 'src/app/domains/noticias.dto';
 import { PaginacaoDTO } from 'src/app/domains/paginacao.dto';
 import { NavigationExtras, Router } from '@angular/router';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-noticias',
@@ -16,23 +16,52 @@ export class NoticiasPage implements OnInit {
   noticias:NoticiasDTO[] = [];
   paginacao:PaginacaoDTO<NoticiasDTO>;
   numeroPagina: number = 0;
+  private loaderElement: HTMLIonLoadingElement;
 
   constructor(private noticiasService:NoticiasService,
-              private route: Router) { }
+              private route: Router,
+              private loadingController: LoadingController) { }
 
   ngOnInit() {
-    this.carregarNoticias();
+    this.carregarNoticias(true);
   }
 
-  carregarNoticias(){
-    this.noticiasService.findAll(this.numeroPagina,3).subscribe(response=>{
+  carregarNoticias(mudancaPagina:boolean){
+    if (mudancaPagina){
+      this.presentLoading();
+    }
+    this.noticiasService.findAll(this.numeroPagina,3)
+    .subscribe(response=>{
       this.paginacao = response;
       this.noticias = this.noticias.concat(this.paginacao.content);
+      if (mudancaPagina){
+        this.dismissLoading();
+      }
     },erro=>{
       console.error(erro);
     });
   }
 
+  public dismissLoading() {
+    const interval = setInterval(() => {
+        if (this.loaderElement ) {
+            this.loaderElement.dismiss().then(() => { this.loaderElement = null; clearInterval(interval)});
+        } else if (!this.loaderElement) {
+            clearInterval(interval);
+        }
+    }, 500);
+}
+
+  async presentLoading(){
+    this.loadingController.create({
+      message: "Aguarde..."
+    }).then(l=>{
+      this.loaderElement = l;
+      return l.present();
+    });
+    
+    
+  }
 
 
   abrirNoticia(noticia: NoticiasDTO){
@@ -53,7 +82,7 @@ export class NoticiasPage implements OnInit {
     setTimeout(() => {
       event.target.complete();
       this.numeroPagina++;
-      this.carregarNoticias();
+      this.carregarNoticias(false);
       
 //      if (this.noticias.length == this.paginacao.totalElements){
   //      event.target.disabled = true;
@@ -67,7 +96,7 @@ export class NoticiasPage implements OnInit {
       event.target.complete();
       this.numeroPagina = 0;
       this.noticias = [];
-      this.carregarNoticias();
+      this.carregarNoticias(false);
       this.infiniteScroll.disabled = false;
     }, 1000);
   }
