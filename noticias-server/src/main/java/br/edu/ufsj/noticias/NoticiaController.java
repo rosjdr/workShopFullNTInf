@@ -3,6 +3,7 @@ package br.edu.ufsj.noticias;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ public class NoticiaController {
 	private NoticiaRepository repositorio;
 	
 	@GetMapping()
+	@CrossOrigin
 	public List<Noticia> listaDeNoticias() {
 		return repositorio.findAll();
 	}
