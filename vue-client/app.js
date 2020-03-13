@@ -1,5 +1,5 @@
 const vm = new Vue({
-  el: '#app2',
+  el: '#app',
   data () {
     return {
       results: null
