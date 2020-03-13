@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
       icon: 'newspaper'
     }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   constructor(
     private platform: Platform,
