@@ -8,13 +8,27 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let n of noticias">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+  <ion-card *ngFor="let n of noticias" (click)="abrirNoticia(n)">
     <ion-card-header>
       <ion-card-title>{{n.titulo}}</ion-card-title>
     </ion-card-header>
   
     <ion-card-content>
-      {{n.texto}}
+      Clique para ler a notícia completa...
     </ion-card-content>
   </ion-card>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinitScroll($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Carregando mais notícias...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
