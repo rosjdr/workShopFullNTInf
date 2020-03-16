@@ -3,6 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { LoginService } from './services/login.service';
+import { Router } from '@angular/router';
+import { LocalUser } from './domains/local-user';
+import { StorageService } from './services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -12,16 +16,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public appPages = [
-    {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
-    },
-    {
-      title: 'Outbox',
-      url: '/folder/Outbox',
-      icon: 'paper-plane'
-    },
 
     {
       title: 'Notícias',
@@ -33,7 +27,12 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private loginService: LoginService,
+    private route: Router,
+    private storage: StorageService,
+    
+
   ) {
     this.initializeApp();
   }
@@ -45,10 +44,15 @@ export class AppComponent implements OnInit {
     });
   }
 
+  logout(){
+    this.loginService.logout();
+    this.route.navigate(['login']);
+  }
   ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+    let user: LocalUser = this.storage.getLocalUser();
+    if (!user){
+      this.route.navigate(['login']);
     }
   }
+
 }
