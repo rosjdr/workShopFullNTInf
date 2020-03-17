@@ -16,6 +16,7 @@ import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
 import { ServicosService } from './services/servicos.service';
 import { AuthGuard } from './security/auth.guard';
 import { JwtModule, JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from './services/auth.service';
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -47,6 +48,7 @@ export function jwtOptionsFactory(storage) {
     StorageService,
     ServicosService,
     AuthGuard,
+    AuthService,
     AuthInterceptorProvider,
     ErrorInterceptorProvider,
 

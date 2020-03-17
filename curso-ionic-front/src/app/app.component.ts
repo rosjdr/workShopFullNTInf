@@ -9,6 +9,7 @@ import { LocalUser } from './domains/local-user';
 import { StorageService } from './services/storage.service';
 import { ServicosService } from './services/servicos.service';
 import { ServicoDTO } from './domains/servico.dto';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private loginService: LoginService,
+    private loginService:LoginService,
+    private authService: AuthService,
     private route: Router,
     private menu: MenuController,
     private servicos: ServicosService
@@ -60,15 +62,13 @@ export class AppComponent implements OnInit {
     this.route.navigate(['login']);
   }
   ngOnInit() {
-    if (!this.loginService.isAuthenticated()){
+    if (!this.authService.isAuthenticated()){
       this.route.navigate(['login']);
-    }else{
-//      this.calculaQuantServicos();
     }
   }
 
   calculaQuantServicos(){
-    let user: LocalUser = this.loginService.getUserAuthenticated();
+    let user: LocalUser = this.authService.getUserAuthenticated();
     let qtd: number = 0;
     if (user){
       this.servicos.getQuantidadeServicos(user.id_usuario).subscribe(response=>{          
@@ -87,7 +87,6 @@ export class AppComponent implements OnInit {
   }
 
   menuOpened(){
-    console.log("passsss");
     this.calculaQuantServicos();
   }
 

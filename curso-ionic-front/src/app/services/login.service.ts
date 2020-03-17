@@ -24,24 +24,6 @@ export class LoginService{
         this.storage.setLocalUser(null);
     }
 
-    isAuthenticated():boolean{
-        let user: LocalUser = this.storage.getLocalUser();
-        if (user){
-            return true;
-        }
-        return false;
-
-    }
-
-    getUserAuthenticated():LocalUser{
-        let user: LocalUser = this.storage.getLocalUser();
-        if (user){
-            return user;
-        }
-        return null;
-
-    }
-
 
 
 }

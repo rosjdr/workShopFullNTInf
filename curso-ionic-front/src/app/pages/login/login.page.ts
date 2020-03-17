@@ -7,6 +7,7 @@ import { LocalUser } from 'src/app/domains/local-user';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,10 +25,11 @@ export class LoginPage implements OnInit {
               private storage:StorageService,
               private route:Router,
               private menu: MenuController,
+              private authService: AuthService,
               private jwtHelper: JwtHelperService) { }
 
   ngOnInit() {
-    if (this.loginService.isAuthenticated()){
+    if (this.authService.isAuthenticated()){
       this.route.navigate(['noticias']);
     }
   }
