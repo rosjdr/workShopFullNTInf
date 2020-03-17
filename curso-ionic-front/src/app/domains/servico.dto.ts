@@ -1,4 +1,6 @@
 export interface ServicoDTO{
     id: string,
-    descricao: string
+    titulo: string,
+    descricao: string,
+    finalizado: boolean
 }

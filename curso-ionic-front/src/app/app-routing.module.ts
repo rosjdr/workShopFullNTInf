@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'servicos',
     loadChildren: () => import('./pages/servicos/servicos.module').then( m => m.ServicosPageModule),
     canActivate:[AuthGuard]
+  },
+  {
+    path: 'servico-detalhe',
+    loadChildren: () => import('./pages/servico-detalhe/servico-detalhe.module').then( m => m.ServicoDetalhePageModule)
   }
 ];
 

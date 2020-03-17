@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
     this.loginService.logout();
     this.menu.toggle();
     this.route.navigate(['login']);
+    this.selectedIndex=0;
   }
   ngOnInit() {
     if (!this.authService.isAuthenticated()){

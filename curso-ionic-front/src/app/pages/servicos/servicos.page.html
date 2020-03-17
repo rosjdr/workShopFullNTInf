@@ -10,4 +10,15 @@
 
 <ion-content>
 
+  <ion-list>
+    <ion-item *ngFor="let s of servicos" (click)="abrirServico(s)">
+      <ion-label>
+        <h2>Servico Nº:{{s.id}}</h2>
+        <h3>{{s.titulo}}</h3>
+        <p>{{s.descricao}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
+
 </ion-content>
