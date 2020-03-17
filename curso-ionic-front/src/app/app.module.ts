@@ -13,7 +13,18 @@ import { LoginService } from './services/login.service';
 import { StorageService } from './services/storage.service';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
+import { ServicosService } from './services/servicos.service';
+import { AuthGuard } from './security/auth.guard';
+import { JwtModule, JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 
+export function jwtOptionsFactory(storage) {
+  return {
+    tokenGetter: () => {
+      return storage.get('access_token');
+    },
+    whitelistedDomains: ['localhost:5000']
+  }
+}
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -21,13 +32,21 @@ import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
     BrowserModule,
     IonicModule.forRoot(),
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [StorageService],
+      }
+    })
   ],
   providers: [
     StatusBar,
     SplashScreen,
     LoginService,
     StorageService,
+    ServicosService,
+    AuthGuard,
     AuthInterceptorProvider,
     ErrorInterceptorProvider,
 

@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor{
         let user: LocalUser = this.storageService.getLocalUser();
 
         if (user){
-            const authReq = req.clone({headers: req.headers.set('Authorization','Bearer '+user.token)});
+            const authReq = req.clone({headers: req.headers.set('Authorization',user.token)});
             return next.handle(authReq);
         }else{
             return next.handle(req);

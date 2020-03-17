@@ -5,12 +5,14 @@ import { Observable } from 'rxjs';
 import { TokenDTO } from '../domains/token.dto';
 import { API_CONFIG } from '../config/api.config';
 import { StorageService } from './storage.service';
+import { LocalUser } from '../domains/local-user';
 
 @Injectable()
 export class LoginService{
 
     constructor(private http:HttpClient,
-                private storage: StorageService){
+                private storage: StorageService
+                ){
 
     }
 
@@ -21,5 +23,25 @@ export class LoginService{
     logout(){
         this.storage.setLocalUser(null);
     }
+
+    isAuthenticated():boolean{
+        let user: LocalUser = this.storage.getLocalUser();
+        if (user){
+            return true;
+        }
+        return false;
+
+    }
+
+    getUserAuthenticated():LocalUser{
+        let user: LocalUser = this.storage.getLocalUser();
+        if (user){
+            return user;
+        }
+        return null;
+
+    }
+
+
 
 }
