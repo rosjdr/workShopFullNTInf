@@ -1,5 +1,7 @@
 {
   "name": "curso-ionic-front",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

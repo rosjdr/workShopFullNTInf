@@ -22,7 +22,7 @@ export class NoticiasPage implements OnInit {
               private route: Router,
               private loadingController: LoadingController) { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.carregarNoticias(true);
   }
 

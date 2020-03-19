@@ -17,4 +17,8 @@ export class ServicosService{
     getQuantidadeServicos(usuario_id: string):Observable<number>{
         return this.http.get<number>(`${API_CONFIG.baseUrl}/servicos/${usuario_id}/qtd`);
     }
+
+    finalizarServico(servico: ServicoDTO):Observable<ServicoDTO>{
+        return this.http.put<ServicoDTO>(`${API_CONFIG.baseUrl}/servicos/`,servico);
+    }
 }

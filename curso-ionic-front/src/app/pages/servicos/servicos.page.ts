@@ -3,7 +3,7 @@ import { ServicoDTO } from 'src/app/domains/servico.dto';
 import { ServicosService } from 'src/app/services/servicos.service';
 import { LocalUser } from 'src/app/domains/local-user';
 import { AuthService } from 'src/app/services/auth.service';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-servicos',
@@ -15,10 +15,13 @@ export class ServicosPage implements OnInit {
   servicos:ServicoDTO[];
   constructor(private servicosService:ServicosService,
               private authService:AuthService,
-              private route: Router) { }
+              private route: Router,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.carregarServicos();
+
+
   }
 
   carregarServicos(){
@@ -47,6 +50,22 @@ export class ServicosPage implements OnInit {
 
   ionViewDidEnter(){
     this.carregarServicos();
+
+     this.activatedRoute.queryParams.subscribe(params => {
+       let servico:ServicoDTO = JSON.parse(params["servico"]);
+       console.log("DTO retornado",servico);
+       let position:number = this.servicos.indexOf(servico);
+       this.servicos[position] = servico;
+     });
+
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.servicos = [];
+      this.carregarServicos();
+    }, 1000);
   }
 
 }
