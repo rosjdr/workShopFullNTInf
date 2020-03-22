@@ -53,7 +53,6 @@ export class ServicosPage implements OnInit {
 
      this.activatedRoute.queryParams.subscribe(params => {
        let servico:ServicoDTO = JSON.parse(params["servico"]);
-       console.log("DTO retornado",servico);
        let position:number = this.servicos.indexOf(servico);
        this.servicos[position] = servico;
      });

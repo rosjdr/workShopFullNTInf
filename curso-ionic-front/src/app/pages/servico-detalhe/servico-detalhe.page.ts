@@ -28,7 +28,6 @@ export class ServicoDetalhePage implements OnInit {
     this.servico.finalizado=true;
     this.servicoService.finalizarServico(this.servico).subscribe(response=>{
       this.servico = response;
-      console.log("response retornado",response);
       let navigationExtras: NavigationExtras = {
         queryParams: {
             servico: JSON.stringify(this.servico)
